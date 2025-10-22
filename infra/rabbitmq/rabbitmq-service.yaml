@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+  namespace: rabbitmq
+  labels:
+    app: rabbitmq
+spec:
+  ports:
+    - port: 5672
+      name: amqp
+    - port: 15672
+      name: management
+  clusterIP: None
+  selector:
+    app: rabbitmq
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-ui
+  namespace: rabbitmq
+spec:
+  type: NodePort
+  ports:
+    - name: management
+      port: 15672
+      targetPort: 15672
+      nodePort: 31567
+  selector:
+    app: rabbitmq
